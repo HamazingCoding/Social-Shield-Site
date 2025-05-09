@@ -4,20 +4,43 @@ import {
   LinkAnalysisResult, 
   EmailAnalysisResult,
   PhishingDetails,
-  EmailDetails
+  EmailDetails,
+  voiceAnalyses,
+  videoAnalyses,
+  linkAnalyses,
+  emailAnalyses,
+  insertVoiceAnalysisSchema,
+  insertVideoAnalysisSchema,
+  insertLinkAnalysisSchema,
+  insertEmailAnalysisSchema
 } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
+
+// Define a File type to avoid Express.Multer type error
+interface File {
+  fieldname: string;
+  originalname: string;
+  encoding: string;
+  mimetype: string;
+  size: number;
+  buffer: Buffer;
+  destination?: string;
+  filename?: string;
+  path?: string;
+}
 
 export interface IStorage {
-  analyzeVoice(file: Express.Multer.File): Promise<VoiceAnalysisResult>;
-  analyzeVideo(file: Express.Multer.File): Promise<DeepfakeAnalysisResult>;
+  analyzeVoice(file: File): Promise<VoiceAnalysisResult>;
+  analyzeVideo(file: File): Promise<DeepfakeAnalysisResult>;
   analyzeLink(url: string): Promise<LinkAnalysisResult>;
   analyzeEmail(content: string): Promise<EmailAnalysisResult>;
 }
 
-export class MemStorage implements IStorage {
+export class DatabaseStorage implements IStorage {
   constructor() {}
 
-  async analyzeVoice(file: Express.Multer.File): Promise<VoiceAnalysisResult> {
+  async analyzeVoice(file: File): Promise<VoiceAnalysisResult> {
     // Simulate voice analysis with realistic response
     // In a real implementation, this would use ML models to analyze the audio
     
@@ -63,6 +86,23 @@ export class MemStorage implements IStorage {
       ];
     }
     
+    // Store the analysis result in the database
+    // Note: In a real application, we would have user authentication
+    // and associate the analysis with the logged-in user
+    try {
+      await db.insert(voiceAnalyses).values({
+        userId: 1, // Default user ID for demo purposes
+        filename: file.originalname,
+        isAI,
+        confidence,
+        details,
+        recommendations
+      });
+    } catch (error) {
+      console.error("Error saving voice analysis to database:", error);
+      // Continue with the analysis result even if saving fails
+    }
+    
     return {
       isAI,
       confidence,
@@ -71,7 +111,7 @@ export class MemStorage implements IStorage {
     };
   }
 
-  async analyzeVideo(file: Express.Multer.File): Promise<DeepfakeAnalysisResult> {
+  async analyzeVideo(file: File): Promise<DeepfakeAnalysisResult> {
     // Simulate video analysis with realistic response
     // In a real implementation, this would use computer vision and ML models
     
@@ -114,6 +154,22 @@ export class MemStorage implements IStorage {
         "Verify identity through voice call or in-person meeting",
         "Contact the purported individual through verified channels"
       ];
+    }
+    
+    // Store the analysis result in the database
+    try {
+      await db.insert(videoAnalyses).values({
+        userId: 1, // Default user ID for demo purposes
+        filename: file.originalname,
+        isAuthentic,
+        confidenceScore,
+        manipulationMarkers,
+        details,
+        recommendations
+      });
+    } catch (error) {
+      console.error("Error saving video analysis to database:", error);
+      // Continue with the analysis result even if saving fails
     }
     
     return {
@@ -168,6 +224,21 @@ export class MemStorage implements IStorage {
         "Verify the website's identity through its security certificate",
         "Only enter sensitive information on pages you trust"
       ];
+    }
+    
+    // Store the analysis result in the database
+    try {
+      await db.insert(linkAnalyses).values({
+        userId: 1, // Default user ID for demo purposes
+        url,
+        isPhishing,
+        confidence,
+        details,
+        recommendations
+      });
+    } catch (error) {
+      console.error("Error saving link analysis to database:", error);
+      // Continue with the analysis result even if saving fails
     }
     
     return {
@@ -239,6 +310,24 @@ export class MemStorage implements IStorage {
       ];
     }
     
+    // Store the analysis result in the database
+    try {
+      await db.insert(emailAnalyses).values({
+        userId: 1, // Default user ID for demo purposes
+        content,
+        isPhishing,
+        riskLevel,
+        senderStatus: details.sender,
+        linksStatus: details.links,
+        contentStatus: details.content,
+        urgencyLevel: details.urgency,
+        recommendations
+      });
+    } catch (error) {
+      console.error("Error saving email analysis to database:", error);
+      // Continue with the analysis result even if saving fails
+    }
+    
     return {
       isPhishing,
       riskLevel,
@@ -248,4 +337,5 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+// Use the new DatabaseStorage implementation
+export const storage = new DatabaseStorage();
