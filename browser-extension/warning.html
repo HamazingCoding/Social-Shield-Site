@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guardian Shield - Security Warning</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #F9FAFB;
+      color: #1F2937;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .header {
+      background: linear-gradient(to right, #DC2626, #EF4444);
+      color: white;
+      padding: 16px;
+      text-align: center;
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    
+    .header-logo {
+      width: 40px;
+      height: 40px;
+    }
+    
+    .header-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin: 0;
+    }
+    
+    .header-subtitle {
+      font-size: 16px;
+      opacity: 0.9;
+      margin: 0;
+    }
+    
+    .main {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 32px 16px;
+      flex: 1;
+    }
+    
+    .warning-container {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    
+    .warning-header {
+      background-color: #FEF2F2;
+      padding: 24px;
+      border-bottom: 1px solid #FCA5A5;
+      text-align: center;
+    }
+    
+    .warning-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+    
+    .warning-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: #DC2626;
+      margin: 0 0 8px 0;
+    }
+    
+    .warning-subtitle {
+      font-size: 16px;
+      color: #7F1D1D;
+      margin: 0;
+    }
+    
+    .warning-content {
+      padding: 24px;
+    }
+    
+    .url-display {
+      background-color: #F3F4F6;
+      padding: 12px;
+      border-radius: 4px;
+      font-family: monospace;
+      word-break: break-all;
+      margin-bottom: 24px;
+      border-left: 4px solid #9CA3AF;
+    }
+    
+    .info-section {
+      margin-bottom: 24px;
+    }
+    
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 16px 0;
+    }
+    
+    .threat-details {
+      background-color: #FEF2F2;
+      border: 1px solid #FCA5A5;
+      border-radius: 4px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+    
+    .threat-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    
+    .threat-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .threat-icon {
+      color: #DC2626;
+      flex-shrink: 0;
+      margin-right: 12px;
+      font-weight: bold;
+    }
+    
+    .threat-text {
+      flex: 1;
+    }
+    
+    .recommendations {
+      background-color: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      border-radius: 4px;
+      padding: 16px;
+    }
+    
+    .recommendation-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    
+    .recommendation-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .recommendation-icon {
+      color: #2563EB;
+      flex-shrink: 0;
+      margin-right: 12px;
+      font-weight: bold;
+    }
+    
+    .recommendation-text {
+      flex: 1;
+    }
+    
+    .actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 24px;
+    }
+    
+    .action-button {
+      flex: 1;
+      padding: 12px;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.2s;
+    }
+    
+    .back-button {
+      background-color: #1F2937;
+      color: white;
+      border: none;
+    }
+    
+    .back-button:hover {
+      background-color: #111827;
+    }
+    
+    .proceed-button {
+      background-color: transparent;
+      color: #DC2626;
+      border: 1px solid #DC2626;
+    }
+    
+    .proceed-button:hover {
+      background-color: #FEF2F2;
+    }
+    
+    .confidence-meter {
+      margin-bottom: 24px;
+    }
+    
+    .confidence-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    
+    .confidence-title {
+      font-weight: 500;
+    }
+    
+    .confidence-value {
+      font-weight: 600;
+      color: #DC2626;
+    }
+    
+    .confidence-bar {
+      height: 8px;
+      background-color: #E5E7EB;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .confidence-fill {
+      height: 100%;
+      background-color: #DC2626;
+      width: 0%;
+    }
+    
+    .footer {
+      background-color: #F3F4F6;
+      padding: 16px;
+      text-align: center;
+      font-size: 14px;
+      color: #6B7280;
+    }
+    
+    .footer a {
+      color: #4F46E5;
+      text-decoration: none;
+    }
+    
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo-container">
+      <img src="icons/icon48.png" alt="Guardian Shield" class="header-logo">
+      <h1 class="header-title">Guardian Shield</h1>
+    </div>
+    <p class="header-subtitle">Security Warning</p>
+  </div>
+  
+  <div class="main">
+    <div class="warning-container">
+      <div class="warning-header">
+        <div class="warning-icon">⚠️</div>
+        <h2 class="warning-title" id="warning-title">Dangerous Website Blocked</h2>
+        <p class="warning-subtitle" id="warning-subtitle">This site may be a phishing attempt to steal your information</p>
+      </div>
+      
+      <div class="warning-content">
+        <div class="url-display" id="blocked-url">
+          https://example.com/suspicious-page
+        </div>
+        
+        <div class="confidence-meter">
+          <div class="confidence-label">
+            <span class="confidence-title">Threat confidence</span>
+            <span class="confidence-value" id="confidence-value">92%</span>
+          </div>
+          <div class="confidence-bar">
+            <div class="confidence-fill" id="confidence-fill"></div>
+          </div>
+        </div>
+        
+        <div class="info-section">
+          <h3 class="section-title">What we detected</h3>
+          <div class="threat-details" id="threat-details">
+            <div class="threat-item">
+              <div class="threat-icon">⚠️</div>
+              <div class="threat-text">Loading threat details...</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="info-section">
+          <h3 class="section-title">Recommendations</h3>
+          <div class="recommendations" id="recommendations">
+            <div class="recommendation-item">
+              <div class="recommendation-icon">ℹ️</div>
+              <div class="recommendation-text">Loading recommendations...</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="actions">
+          <button class="action-button back-button" id="back-button">
+            <span>◀</span> Go Back (Safe)
+          </button>
+          <button class="action-button proceed-button" id="proceed-button">
+            Proceed Anyway (Risky) <span>▶</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer">
+    <div>Protection provided by Guardian Shield</div>
+    <div><a href="#" id="learn-more">Learn More</a> | <a href="#" id="report-error">Report False Positive</a></div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const url = urlParams.get('url');
+      const threatType = urlParams.get('threat') || 'phishing';
+      const confidence = urlParams.get('confidence') || 90;
+      
+      // Set URL
+      const blockedUrlElement = document.getElementById('blocked-url');
+      blockedUrlElement.textContent = url || 'Unknown URL';
+      
+      // Set confidence
+      const confidenceValueElement = document.getElementById('confidence-value');
+      const confidenceFillElement = document.getElementById('confidence-fill');
+      confidenceValueElement.textContent = `${confidence}%`;
+      confidenceFillElement.style.width = `${confidence}%`;
+      
+      // Set title and subtitle based on threat type
+      const warningTitleElement = document.getElementById('warning-title');
+      const warningSubtitleElement = document.getElementById('warning-subtitle');
+      
+      if (threatType === 'phishing') {
+        warningTitleElement.textContent = 'Phishing Attempt Detected';
+        warningSubtitleElement.textContent = 'This site may be trying to steal your personal information.';
+      } else if (threatType === 'deepfake') {
+        warningTitleElement.textContent = 'Manipulated Media Detected';
+        warningSubtitleElement.textContent = 'This content may contain AI-generated or manipulated media.';
+      } else if (threatType === 'voice') {
+        warningTitleElement.textContent = 'AI Voice Detected';
+        warningSubtitleElement.textContent = 'This content contains synthetically generated voice.';
+      }
+      
+      // Get analysis details from background script
+      chrome.runtime.sendMessage(
+        { action: 'getAnalysisDetails', data: { url, threatType } },
+        function(response) {
+          if (response && response.success) {
+            // Update threat details
+            const threatDetailsElement = document.getElementById('threat-details');
+            threatDetailsElement.innerHTML = '';
+            
+            response.details.forEach(detail => {
+              const threatItem = document.createElement('div');
+              threatItem.className = 'threat-item';
+              threatItem.innerHTML = `
+                <div class="threat-icon">⚠️</div>
+                <div class="threat-text">${detail}</div>
+              `;
+              threatDetailsElement.appendChild(threatItem);
+            });
+            
+            // Update recommendations
+            const recommendationsElement = document.getElementById('recommendations');
+            recommendationsElement.innerHTML = '';
+            
+            response.recommendations.forEach(recommendation => {
+              const recommendationItem = document.createElement('div');
+              recommendationItem.className = 'recommendation-item';
+              recommendationItem.innerHTML = `
+                <div class="recommendation-icon">ℹ️</div>
+                <div class="recommendation-text">${recommendation}</div>
+              `;
+              recommendationsElement.appendChild(recommendationItem);
+            });
+          }
+        }
+      );
+      
+      // Set up button event listeners
+      const backButton = document.getElementById('back-button');
+      const proceedButton = document.getElementById('proceed-button');
+      const learnMoreLink = document.getElementById('learn-more');
+      const reportErrorLink = document.getElementById('report-error');
+      
+      backButton.addEventListener('click', function() {
+        window.history.back();
+      });
+      
+      proceedButton.addEventListener('click', function() {
+        if (url) {
+          // Inform background script before navigating
+          chrome.runtime.sendMessage(
+            { action: 'proceedAnyway', data: { url, threatType } },
+            function() {
+              window.location.href = url;
+            }
+          );
+        }
+      });
+      
+      learnMoreLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        chrome.tabs.create({ url: 'help.html' });
+      });
+      
+      reportErrorLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        chrome.runtime.sendMessage(
+          { action: 'reportFalsePositive', data: { url, threatType } }
+        );
+        alert('Thank you for your feedback. This has been reported as a false positive.');
+      });
+    });
+  </script>
+</body>
+</html>

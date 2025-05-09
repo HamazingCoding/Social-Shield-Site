@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guardian Shield</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 0;
+      width: 350px;
+      color: #1F2937;
+    }
+    
+    .header {
+      background: linear-gradient(to right, #4F46E5, #7C3AED);
+      color: white;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .header-logo {
+      width: 32px;
+      height: 32px;
+    }
+    
+    .header-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0;
+    }
+    
+    .header-subtitle {
+      font-size: 12px;
+      opacity: 0.9;
+      margin: 0;
+    }
+    
+    .main {
+      padding: 16px;
+    }
+    
+    .protection-status {
+      background-color: #ECFDF5;
+      border: 1px solid #10B981;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .protection-status.disabled {
+      background-color: #FEF2F2;
+      border-color: #EF4444;
+    }
+    
+    .status-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: #10B981;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: bold;
+    }
+    
+    .status-icon.disabled {
+      background-color: #EF4444;
+    }
+    
+    .protection-status-text {
+      flex: 1;
+    }
+    
+    .protection-status-title {
+      font-weight: 600;
+      margin: 0 0 4px 0;
+    }
+    
+    .protection-status-description {
+      font-size: 12px;
+      color: #4B5563;
+      margin: 0;
+    }
+    
+    .toggle-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    
+    .toggle {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+    
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #D1D5DB;
+      border-radius: 24px;
+      transition: .3s;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: .3s;
+    }
+    
+    input:checked + .slider {
+      background-color: #4F46E5;
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+    
+    .section-title {
+      font-weight: 600;
+      font-size: 16px;
+      margin: 0 0 12px 0;
+    }
+    
+    .settings-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #E5E7EB;
+    }
+    
+    .settings-item:last-child {
+      border-bottom: none;
+    }
+    
+    .settings-label {
+      flex: 1;
+    }
+    
+    .settings-title {
+      font-weight: 500;
+      margin: 0 0 4px 0;
+    }
+    
+    .settings-description {
+      font-size: 12px;
+      color: #6B7280;
+      margin: 0;
+    }
+    
+    .alert-level {
+      padding: 16px 0;
+      border-bottom: 1px solid #E5E7EB;
+    }
+    
+    .alert-level-title {
+      font-weight: 500;
+      margin: 0 0 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .alert-level-value {
+      font-size: 12px;
+      color: #6B7280;
+    }
+    
+    .alert-level-options {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    
+    .alert-option {
+      flex: 1;
+      text-align: center;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #D1D5DB;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    
+    .alert-option.selected {
+      border-color: #4F46E5;
+      background-color: #EEF2FF;
+      color: #4F46E5;
+      font-weight: 500;
+    }
+    
+    .stats {
+      background-color: #F3F4F6;
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 16px;
+    }
+    
+    .stat-item {
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-weight: 600;
+      font-size: 18px;
+      margin: 0 0 4px 0;
+    }
+    
+    .stat-label {
+      font-size: 11px;
+      color: #6B7280;
+      margin: 0;
+    }
+    
+    .footer {
+      padding: 12px 16px;
+      text-align: center;
+      font-size: 12px;
+      color: #6B7280;
+      border-top: 1px solid #E5E7EB;
+      margin-top: 16px;
+    }
+    
+    .footer a {
+      color: #4F46E5;
+      text-decoration: none;
+    }
+    
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    
+    .history-button {
+      background-color: #4F46E5;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 12px;
+      font-size: 14px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 16px;
+    }
+    
+    .history-button:hover {
+      background-color: #4338CA;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="icons/icon48.png" alt="Guardian Shield" class="header-logo">
+    <div>
+      <h1 class="header-title">Guardian Shield</h1>
+      <p class="header-subtitle">Protection against AI and phishing threats</p>
+    </div>
+  </div>
+  
+  <div class="main">
+    <div class="protection-status" id="protection-status">
+      <div class="status-icon" id="status-icon">✓</div>
+      <div class="protection-status-text">
+        <h2 class="protection-status-title" id="status-title">Protection Active</h2>
+        <p class="protection-status-description" id="status-description">Guardian Shield is actively monitoring for threats.</p>
+      </div>
+    </div>
+    
+    <div class="toggle-container">
+      <span>Enable Protection</span>
+      <label class="toggle">
+        <input type="checkbox" id="main-toggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+    
+    <h3 class="section-title">Protection Settings</h3>
+    
+    <div class="settings-item">
+      <div class="settings-label">
+        <div class="settings-title">Phishing Detection</div>
+        <div class="settings-description">Scan links and websites for phishing attempts</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="phishing-toggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+    
+    <div class="settings-item">
+      <div class="settings-label">
+        <div class="settings-title">Deepfake Detection</div>
+        <div class="settings-description">Analyze videos for AI-manipulated content</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="deepfake-toggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+    
+    <div class="settings-item">
+      <div class="settings-label">
+        <div class="settings-title">Voice AI Detection</div>
+        <div class="settings-description">Scan audio for AI-generated voices</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="voice-toggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+    
+    <div class="settings-item">
+      <div class="settings-label">
+        <div class="settings-title">Auto-block Threats</div>
+        <div class="settings-description">Automatically block high-confidence threats</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="autoblock-toggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+    
+    <div class="alert-level">
+      <div class="alert-level-title">
+        Alert Sensitivity
+        <span class="alert-level-value" id="alert-level-display">Medium</span>
+      </div>
+      <div class="alert-level-options">
+        <div class="alert-option" data-level="low">Low</div>
+        <div class="alert-option selected" data-level="medium">Medium</div>
+        <div class="alert-option" data-level="high">High</div>
+      </div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-item">
+        <div class="stat-value" id="threats-blocked">0</div>
+        <div class="stat-label">Threats Blocked</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="links-scanned">0</div>
+        <div class="stat-label">Links Scanned</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="media-analyzed">0</div>
+        <div class="stat-label">Media Analyzed</div>
+      </div>
+    </div>
+    
+    <button class="history-button" id="history-button">View Protection History</button>
+  </div>
+  
+  <div class="footer">
+    <div>Created by Guardian Shield Team</div>
+    <div><a href="#" id="open-settings">Advanced Settings</a> | <a href="#" id="open-help">Help</a></div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
