@@ -1,68 +1,116 @@
 # Guardian Shield
 
-A React-based web application with Three.js visualizations to protect users against social engineering through AI voice detection, deepfake video detection, and phishing analysis.
+Guardian Shield is a comprehensive web application designed to protect users against social engineering through AI voice detection, deepfake video detection, and phishing analysis.
 
 ## Features
 
-### 1. AI Voice Detection
-Upload audio files from calls and verify if the voice is authentic or AI-generated.
-
-### 2. Deepfake Video Detection
-Analyze video files to identify signs of manipulation or synthetic content.
-
-### 3. Phishing Detection
-Verify suspicious links and analyze email content to identify phishing attempts.
-
-## Technologies Used
-
-- **Frontend**: React, TypeScript, TailwindCSS, Shadcn UI components
-- **Visualization**: Three.js for 3D visualizations
-- **Backend**: Express.js
-- **State Management**: TanStack Query (React Query)
-- **Routing**: Wouter
+- **AI Voice Detection**: Analyze audio files to detect synthetically generated voices
+- **Deepfake Video Detection**: Verify the authenticity of videos to identify manipulated content
+- **Phishing Detection**: Scan URLs and email content for phishing attempts
+- **Real-time Analysis**: Process audio and video streams in real-time
+- **Browser Extension**: Protect yourself while browsing with our Chrome extension
 
 ## Getting Started
 
 ### Prerequisites
-- Node.js (v20 or higher)
-- npm or yarn
 
-### Installation
+- Node.js (v16 or higher)
+- npm (v8 or higher)
+- PostgreSQL database
 
-1. Clone the repository
-```bash
-git clone https://github.com/your-username/guardian-shield.git
-cd guardian-shield
-```
+### Setup (Automatic)
 
-2. Install dependencies
-```bash
-npm install
-```
+1. Clone this repository
+2. Run the setup script:
+   ```bash
+   chmod +x setup-local.sh
+   ./setup-local.sh
+   ```
+3. Start the application:
+   ```bash
+   ./start-dev.sh
+   ```
+4. Open http://localhost:5000 in your browser
 
-3. Start the development server
+### Setup (Manual)
+
+1. Clone this repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set up environment variables:
+   Create a `.env` file with the following variables:
+   ```
+   DATABASE_URL=postgres://username:password@localhost:5432/guardian_shield
+   PGUSER=username
+   PGPASSWORD=password
+   PGDATABASE=guardian_shield
+   PGHOST=localhost
+   PGPORT=5432
+   ```
+4. Create the database schema:
+   ```bash
+   npm run db:push
+   ```
+5. Start the development server:
+   ```bash
+   npm run dev
+   ```
+6. Open http://localhost:5000 in your browser
+
+## Browser Extension
+
+The browser extension provides real-time protection while browsing:
+
+1. Navigate to the `browser-extension` directory
+2. Follow the instructions in the extension's [README.md](./browser-extension/README.md)
+
+## Project Structure
+
+- `client/`: Frontend React application
+  - `src/components/`: UI components
+  - `src/pages/`: Application pages
+  - `src/lib/`: Utility functions
+- `server/`: Backend Express application
+  - `routes.ts`: API endpoints
+  - `storage.ts`: Data storage layer
+- `shared/`: Shared code between frontend and backend
+  - `schema.ts`: Database schema and types
+- `browser-extension/`: Chrome extension for real-time protection
+
+## Technologies Used
+
+- **Frontend**:
+  - React
+  - TailwindCSS
+  - Three.js for 3D visualizations
+  - TanStack Query for API requests
+  
+- **Backend**:
+  - Express.js
+  - PostgreSQL with Drizzle ORM
+  - TypeScript
+
+## Development
+
+### Running in Development Mode
+
 ```bash
 npm run dev
 ```
 
-4. Open your browser and navigate to `http://localhost:5000`
+### Building for Production
 
-## Project Structure
+```bash
+npm run build
+npm run start
+```
 
-- `client/` - Frontend React application
-  - `src/components/` - UI components including Three.js visualizations
-  - `src/pages/` - Page components for each feature
-  - `src/lib/` - Utility functions and configuration
-- `server/` - Express backend
-  - `routes.ts` - API endpoints for analysis features
-  - `storage.ts` - Mock data storage and analysis implementations
-- `shared/` - Shared types and schemas
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- Shadcn UI for component library
-- Three.js for 3D visualizations

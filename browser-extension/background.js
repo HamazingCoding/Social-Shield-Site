@@ -1,8 +1,10 @@
 // Guardian Shield Extension
 // Background Service Worker
 
-// API Endpoint - adjust to your server location
-const API_URL = 'https://your-app-url.com/api';
+// API Endpoint - adjust to match your server location
+// For local development: 'http://localhost:5000/api'
+// For production: 'https://your-production-domain.com/api'
+const API_URL = 'http://localhost:5000/api';
 
 // Configuration and settings
 let extensionConfig = {
