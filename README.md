@@ -20,6 +20,7 @@ Guardian Shield is a comprehensive web application designed to protect users aga
 
 ### Setup (Automatic)
 
+#### On Mac/Linux
 1. Clone this repository
 2. Run the setup script:
    ```bash
@@ -32,8 +33,21 @@ Guardian Shield is a comprehensive web application designed to protect users aga
    ```
 4. Open http://localhost:5000 in your browser
 
+#### On Windows
+1. Clone this repository
+2. Run the setup script by double-clicking `setup-windows.bat` or from cmd:
+   ```cmd
+   setup-windows.bat
+   ```
+3. Start the application by double-clicking `start-windows.bat` or from cmd:
+   ```cmd
+   start-windows.bat
+   ```
+4. Open http://localhost:5000 in your browser
+
 ### Setup (Manual)
 
+#### On Mac/Linux
 1. Clone this repository
 2. Install dependencies:
    ```bash
@@ -56,6 +70,37 @@ Guardian Shield is a comprehensive web application designed to protect users aga
 5. Start the development server:
    ```bash
    npm run dev
+   ```
+6. Open http://localhost:5000 in your browser
+
+#### On Windows
+1. Clone this repository
+2. Install dependencies:
+   ```cmd
+   npm install
+   ```
+3. Set up environment variables:
+   Create a `.env` file with the following variables:
+   ```
+   DATABASE_URL=postgres://username:password@localhost:5432/guardian_shield
+   PGUSER=username
+   PGPASSWORD=password
+   PGDATABASE=guardian_shield
+   PGHOST=localhost
+   PGPORT=5432
+   ```
+4. Create the database schema:
+   ```cmd
+   npx drizzle-kit push
+   ```
+5. Start the development server:
+   ```cmd
+   set NODE_ENV=development
+   npx tsx server/index.ts
+   ```
+   Or simply run the provided batch file:
+   ```cmd
+   start-windows.bat
    ```
 6. Open http://localhost:5000 in your browser
 
