@@ -9,6 +9,7 @@ import Home from "@/pages/home";
 import VoiceDetection from "@/pages/voice-detection";
 import DeepfakeDetection from "@/pages/deepfake-detection";
 import PhishingDetection from "@/pages/phishing-detection";
+import RealtimeDetection from "@/pages/realtime-detection";
 
 function Router() {
   return (
@@ -17,6 +18,7 @@ function Router() {
       <Route path="/voice-detection" component={VoiceDetection} />
       <Route path="/deepfake-detection" component={DeepfakeDetection} />
       <Route path="/phishing-detection" component={PhishingDetection} />
+      <Route path="/realtime-detection" component={RealtimeDetection} />
       <Route component={NotFound} />
     </Switch>
   );
